@@ -1,14 +1,23 @@
-<h2>FiveM Ticket flooder</h2>
+# FiveM Ticket — Analysis & Mitigation Notes
 
-<h3>Coded by forky</h3>
+> This repository has been repurposed for defensive documentation.
+> The goal is to document the tools and help people find mitigation strategies for servers.
 
-<h4>This script can generate FiveM tickets that when flooding causes high CPU load and makes the webserver crash, should be patched in recent versions due to new cfx updates, thankfully.</h4>
+## Objective
+Document and analyze request patterns that can overload FiveM servers, provide mitigation recipes and engineering recommendations to harden endpoints like `/client`.
 
-<h3>usage</h3><br>
+## Included material
+- Tool used by cyber crime actors to do such attacks, this can help people on better mitigating them.
 
-```sh
-node fivem.js http://SERVER:30120/client proxy_file duration request_per_proxy
-node fivem.js http://216.151.164.20:30120/client http.txt 120 64
-```
+## Defensive recommendations (summary)
+- Validate and sanitize all client input before enqueueing heavy processing.
+- Implement per-IP and per-session rate limiting on sensitive endpoints.
+- Use job queues with controlled worker pools and backpressure to avoid direct synchronous overload.
+- Integrate WAF or reverse-proxy rules to block obviously malformed requests.
+- Add telemetry/alerts for worker queue saturation, sudden CPU increases and request latency.
 
-## Released because we see people sadly getting attacked by this
+## Responsible disclosure
+If you identify a reproducible issue, do not publish an exploit. Report it to FiveM maintainers or a CERT with reproducible test cases executed in a lab environment.
+
+## Contact
+To coordinate authorized testing or to share a technical report: forkcontato@gmail.com
